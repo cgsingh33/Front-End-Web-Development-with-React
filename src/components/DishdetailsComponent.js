@@ -5,10 +5,13 @@ import { Component } from 'react'
 import { Control, LocalForm, Errors} from 'react-redux-form'
 import {Loading} from './LoadingComponent'
 import {baseUrl} from '../shared/baseURL'
+import {FadeTransform, Fade, Stagger} from 'react-animation-components'
 
-   function RenderComments({comments, postComment, dishId}){
-        const cmnts = comments.map(comment =>{
+   function RenderComments({comments, postComment, dishId}){   
+    const cmnts = comments.map(comment =>{
             return(
+                <Stagger in>
+                <Fade in>
                 <li key={Comment.id}>
                     <p>{comment.comment}</p>
                     <p>-- {comment.author},
@@ -20,6 +23,8 @@ import {baseUrl} from '../shared/baseURL'
                     }).format(new Date(Date.parse(comment.date)))}
                     </p>
                     </li>
+                    </Fade>
+                    </Stagger>
             )
         })
 
@@ -37,6 +42,10 @@ import {baseUrl} from '../shared/baseURL'
 function RenderDish({dish}) {
         if(dish != null){
             return(
+                <FadeTransform in 
+                transformProps={{
+                    exitTransform: 'scale(0.5) translateY(-50%)'
+                }}>
                     <Card>
                         <CardImg width="100%" src={baseUrl + dish.image} alt={dish.name}/>
                         <CardBody>
@@ -44,6 +53,7 @@ function RenderDish({dish}) {
                             <CardText>{dish.description}</CardText>
                         </CardBody>
                     </Card>
+                    </FadeTransform>
             )
         }
         else{
